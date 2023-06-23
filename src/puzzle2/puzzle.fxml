@@ -41,8 +41,7 @@
                   </GridPane>
                   <VBox prefHeight="100.0" prefWidth="85.0" spacing="20.0">
                      <children>
-                        <Button fx:id="btnIniciar" mnemonicParsing="false" prefHeight="25.0" prefWidth="162.0" text="Iniciar"/>
-                        <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="112.0" text="Solucion" />
+                        <Button fx:id="btnIniciar" mnemonicParsing="false" prefHeight="25.0" prefWidth="162.0" text="Iniciar" />
                         <ChoiceBox fx:id="niveles" prefWidth="150.0" />
                         <Button fx:id="btnSalir" mnemonicParsing="false" prefHeight="54.0" prefWidth="88.0" text="Salir" />
                      </children>
@@ -54,10 +53,16 @@
             </HBox>
             <HBox maxWidth="1.7976931348623157E308" prefHeight="25.0" prefWidth="145.0" spacing="20.0">
                <children>
-                  <Label fx:id="label1" style="-fx-border-width: 2; -fx-border-style: solid;"/>
-                  <Label fx:id="label2" style="-fx-border-width: 2; -fx-border-style: solid;"/>
-                  <Label fx:id="label3" style="-fx-border-width: 2; -fx-border-style: solid;"/>
-                  <Label fx:id="label4" style="-fx-border-width: 2; -fx-border-style: solid;"/>
+                  <Label fx:id="label1" style="-fx-border-width: 2; -fx-border-style: solid;" />
+                  <Label fx:id="label2" style="-fx-border-width: 2; -fx-border-style: solid;" />
+                  <Label fx:id="label3" style="-fx-border-width: 2; -fx-border-style: solid;" />
+                  <Label fx:id="label4" style="-fx-border-width: 2; -fx-border-style: solid;" />
+                  <Label text="Clics:">
+                     <padding>
+                        <Insets left="100.0" />
+                     </padding>
+                  </Label>
+                  <Label fx:id="clicCounter" style="-fx-border-width: 2; -fx-border-style: solid;" />
                </children>
             </HBox>
          </children>

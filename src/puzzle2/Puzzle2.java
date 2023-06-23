@@ -1,18 +1,12 @@
 package puzzle2;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 
-public class Puzzle2 extends Application {    
-    private Button btnIniciar;
+public class Puzzle2 extends Application {
 
     public static void main(String[] args) {
         launch(args);
@@ -26,8 +20,9 @@ public class Puzzle2 extends Application {
         
         puzzleController.initialize();
 
-        primaryStage.setScene(new Scene(root, 500, 300));
+        primaryStage.setScene(new Scene(root, 400, 300));
         primaryStage.setTitle("Puzzle Game");
+        primaryStage.resizableProperty().setValue(Boolean.FALSE);
 
         // Establecer color de fondo
         root.setStyle("-fx-background-color: #FFEFC2;");
