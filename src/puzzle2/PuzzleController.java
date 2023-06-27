@@ -23,8 +23,7 @@ por el archivo FXML y están vinculados a elementos en la interfaz gráfica.
 Cada botón esta en la posición (x, y) de la matriz
  */
 public class PuzzleController {
-
-    private ObservableList<String> lstNiveles = FXCollections.observableArrayList("x", "+", "-");
+    // Declaración de variables y elementos de la interfaz
     @FXML
     public Button button00;
     @FXML
@@ -59,67 +58,82 @@ public class PuzzleController {
     public Label clicCounter;
     @FXML
     public ChoiceBox<String> niveles;
+    private final ObservableList<String> lstNiveles = FXCollections.observableArrayList("x", "+", "-");
     private static final int EMPTY_CELL = 0;
     private static final String MOVING_BUTTON_STYLE = "-fx-background-color: #FF0000;";
     private List<Integer> resultados;
     List<Integer> multiplicandos;
     List<Integer> multiplicadores;
     private static final int SIZE = 3;
-    private int[][] board = new int[SIZE][SIZE];
+    private final int[][] board = new int[SIZE][SIZE];
     private Button[][] buttons = new Button[SIZE][SIZE];
     private Label[] labels = new Label[4];
 
-    public void initialize() {
-        clicCounter.setText("0");
-        initializeBoard();
-        btnIniciar.setOnAction(e -> generarOperacionesYPuzzle());
-        btnSalir.setOnAction(e -> salirDelJuego());
-        niveles.setItems(lstNiveles);
-        niveles.setValue("x"); // Valor predeterminado
+    public void initialize() { // Este método se ejecuta cuando se inicializa el controlador
+        //Configura los componentes de la interfaz de usuario y agrega los manejadores de eventos a los botones
+        clicCounter.setText("0"); // Establece el contador de clics en 0
+        initializeBoard(); // Inicializa el tablero
+        btnIniciar.setOnAction(e -> generarOperacionesYPuzzle()); // Configura el evento de clic para el botón "Iniciar"
+        btnSalir.setOnAction(e -> salirDelJuego()); // Configura el evento de clic para el botón "Salir"
+        niveles.setItems(lstNiveles); // Establece las opciones del ChoiceBox (lista desplegable)
+        niveles.setValue("x"); // Establece el valor predeterminado del ChoiceBox
         niveles.getSelectionModel().selectedItemProperty().addListener((obs, oldValue, newValue) -> {
-            generarOperacionesYPuzzle();
+            generarOperacionesYPuzzle(); // Configura el evento de cambio de selección en el ChoiceBox
         });
     }
 
-    public void generarOperacionesYPuzzle() {
-        String seleccion = niveles.getValue();
+    public void generarOperacionesYPuzzle() { // Método para generar las operaciones y el puzzle según la selección del ChoiceBox ("x", "+", "-")
+        String seleccion = niveles.getValue(); // Obtiene la selección actual del ChoiceBox
 
-        multiplicandos = new ArrayList<>();
-        multiplicadores = new ArrayList<>();
-        resultados = new ArrayList<>();
-
-        // Generar operaciones y resultados según la selección
-        if (seleccion.equals("x")) {
-            for (int i = 0; i < 4; i++) {
-                int multiplicando = (int) (Math.random() * 9) + 1;
-                int multiplicador = (int) (Math.random() * 9) + 1;
-                int resultado = multiplicando * multiplicador;
-
-                multiplicandos.add(multiplicando);
-                multiplicadores.add(multiplicador);
-                resultados.add(resultado);
+        multiplicandos = new ArrayList<>(); // Lista de multiplicandos
+        multiplicadores = new ArrayList<>(); // Lista de multiplicadores
+        resultados = new ArrayList<>(); // Lista de resultados
+        /*  Se generan 3 operaciones y se calculan los resultados correspondientes
+        Los números utilizados en las operaciones se almacenan en las listas `multiplicandos` y `multiplicadores`
+        Los resultados se almacenan en la lista `resultados`
+        Luego, los resultados se asignan a los labels en la interfaz de usuario, y los números se distribuyen aleatoriamente
+        En el puzzle. Por último, se invoca este método al seleccionar un nuevo nivel.
+         */
+        switch (seleccion) {
+            case "x" -> {
+                // Generar operaciones de multiplicación
+                for (int i = 0; i < 4; i++) {
+                    int multiplicando = (int) (Math.random() * 9) + 1;
+                    int multiplicador = (int) (Math.random() * 9) + 1;
+                    int resultado = multiplicando * multiplicador;
+                    
+                    multiplicandos.add(multiplicando);
+                    multiplicadores.add(multiplicador);
+                    resultados.add(resultado);
+                }
             }
-        } else if (seleccion.equals("+")) {
-            for (int i = 0; i < 4; i++) {
-                int sumando1 = (int) (Math.random() * 9) + 1;
-                int sumando2 = (int) (Math.random() * 9) + 1;
-                int resultado = sumando1 + sumando2;
-
-                multiplicandos.add(sumando1);
-                multiplicadores.add(sumando2);
-                resultados.add(resultado);
+            case "+" -> {
+                // Generar operaciones de suma
+                for (int i = 0; i < 4; i++) {
+                    int sumando1 = (int) (Math.random() * 9) + 1;
+                    int sumando2 = (int) (Math.random() * 9) + 1;
+                    int resultado = sumando1 + sumando2;
+                    
+                    multiplicandos.add(sumando1);
+                    multiplicadores.add(sumando2);
+                    resultados.add(resultado);
+                }
             }
-        } else if (seleccion.equals("-")) {
-            for (int i = 0; i < 4; i++) {
-                int minuendo = (int) (Math.random() * 9) + 1;
-                int sustraendo = (int) (Math.random() * 9) + 1;
-
-                // Asegurarse de que el resultado de la resta sea positivo
-                int resultado = Math.max(minuendo, sustraendo) - Math.min(minuendo, sustraendo);
-
-                multiplicandos.add(minuendo);
-                multiplicadores.add(sustraendo);
-                resultados.add(resultado);
+            case "-" -> {
+                // Generar operaciones de resta
+                for (int i = 0; i < 4; i++) {
+                    int minuendo = (int) (Math.random() * 9) + 1;
+                    int sustraendo = (int) (Math.random() * 9) + 1;
+                    
+                    // Asegurarse de que el resultado de la resta sea positivo
+                    int resultado = Math.max(minuendo, sustraendo) - Math.min(minuendo, sustraendo);
+                    
+                    multiplicandos.add(minuendo);
+                    multiplicadores.add(sustraendo);
+                    resultados.add(resultado);
+                }
+            }
+            default -> {
             }
         }
 
@@ -151,7 +165,10 @@ public class PuzzleController {
     }
 
     public void initializeBoard() {
-
+        /* Este método inicializa el tablero del puzzle. Asigna números consecutivos a cada celda del tablero, 
+        dejando la última celda vacía. Los botones de la interfaz de usuario se asignan a la matriz `buttons` 
+        para acceder a ellos más fácilmente. Además, se configuran los estilos y los manejadores de eventos para los botones.
+        */
         int count = 1;
         for (int i = 0; i < SIZE; i++) {
             for (int j = 0; j < SIZE; j++) {
@@ -178,6 +195,10 @@ public class PuzzleController {
     }
 
     private int[] findEmptyCell() {
+        /* Este método busca y devuelve la posición de la celda vacía en el tablero. 
+        Recorre todas las celdas del tablero y verifica si su valor es `EMPTY_CELL` (0). 
+        Devuelve un arreglo de dos elementos con las coordenadas (fila y columna) de la celda vacía.
+        */
         int[] emptyCell = new int[2];
 
         for (int i = 0; i < SIZE; i++) {
@@ -193,6 +214,14 @@ public class PuzzleController {
     }
 
     private void moveNumber(Button selectedButton) {
+        /* Este método maneja el movimiento de los números en el puzzle. 
+        Se activa cuando se hace clic en un botón. Primero, verifica si el botón seleccionado no está vacío. 
+        Luego, obtiene el número del botón y la posición de la celda vacía. 
+        Si el botón seleccionado está adyacente a la celda vacía (horizontal o verticalmente), 
+        intercambia el número del botón con la celda vacía. Actualiza los textos de los botones correspondientes y 
+        realiza el efecto visual de movimiento. Después de eso, verifica si el puzzle está resuelto llamando 
+        al método `puzzleSolved()`. Si es así, muestra un mensaje de ganador y reinicia el juego invocando `initialize()`. 
+        También incrementa el contador de clics en la etiqueta `clicCounter`. */
         if (selectedButton.getText().equals("")) {
             return; // Ignorar el botón en blanco
         }
@@ -221,7 +250,7 @@ public class PuzzleController {
                 try {
                     Thread.sleep(200); // Retrasar el cambio de estilo durante 0.5 segundos
                 } catch (InterruptedException e) {
-                    e.printStackTrace();
+                    JOptionPane.showMessageDialog(null, e.getMessage(), "Puzzle", JOptionPane.ERROR_MESSAGE);
                 }
 
                 for (int i = 0; i < SIZE; i++) {
@@ -237,6 +266,7 @@ public class PuzzleController {
                 }
             }).start();
         }
+        // Mostrar un mensaje de victoria si se resuelve el rompecabezas
         if (puzzleSolved()) {
             JOptionPane.showMessageDialog(null, "Has ganado con "+clicCounter.getText()+" clics, comenzarás un nuevo juego, escoge tu nivel","Puzzle",JOptionPane.INFORMATION_MESSAGE);
             initialize();
@@ -244,9 +274,14 @@ public class PuzzleController {
         }
         String clicCounterValue = clicCounter.getText();
         clicCounter.setText(String.valueOf(Integer.parseInt(clicCounterValue)+1));
+        /* Este método actualiza el contador de clics en la etiqueta `clicCounter` de la interfaz de usuario. 
+        Se llama después de cada movimiento válido para reflejar el número de movimientos realizados por el jugador. */
     }
 
     private void salirDelJuego() {
+        /*Este método muestra un cuadro de diálogo para confirmar si el jugador desea salir del juego. 
+        Dependiendo de la respuesta del jugador, se ejecutan diferentes acciones. 
+        Si el jugador confirma la salida, se llama a `Platform.exit()` para cerrar la aplicación. */
         int respuesta = JOptionPane.showConfirmDialog(null, "¿Está seguro que desea salir?", "Salir", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE);
         switch (respuesta) {
             case 0 ->
@@ -261,6 +296,9 @@ public class PuzzleController {
     }
 
     private boolean puzzleSolved() {
+         /*Este método verifica si el puzzle está resuelto. Dependiendo del nivel seleccionado, 
+        compara los números en las celdas del puzzle con los resultados correspondientes almacenados en las etiquetas. 
+        Si todos los cálculos son correctos, devuelve `true`; de lo contrario, devuelve `false`.*/
         int valor1, valor2, labelValue;
         switch (niveles.getValue()) {
             case "x" -> {
